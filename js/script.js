@@ -215,7 +215,7 @@ function postActivity() {
   fetch(apiGateWay + 'activity/', {
     headers: {
       'Content-Type': 'application/json',
-	    'Authorization': localStorage.getItem("hangout_idtoken")},
+      'Authorization': localStorage.getItem("hangout_idtoken")},
       'method': "POST",
       'body': JSON.stringify(activities)
     }).then(function (res) {
