@@ -211,24 +211,33 @@ function deleteActivity(activityId) {
 function postActivity() {
   var form = document.getElementById('new_activity');
   var activities = composeNewActivity(form.elements);
-  console.log(activities);
-  fetch(apiGateWay + 'activity/', {
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': localStorage.getItem("hangout_idtoken")},
-      'method': "POST",
-      'body': JSON.stringify(activities)
-    }).then(function (res) {
-      console.log(res);
-      alert(res.ok? 'Post success!' : res.statusText);
-      return res.json();
-    }).then(function(data){
-      if (data._id) {
-        location.href = 'activity_detail.html?q=' + data._id;
-      }
-    }).catch(function (error) {
-      console.log(error);
-    });
+  var reader = new FileReader();
+  var file = $("#pic")[0].files[0];
+  if (file === undefined) { alert('Please upload a picture.'); }
+
+  reader.onload = function(evt) {
+    activities['picture'] = evt.target.result;
+    console.log(activities);
+    fetch(apiGateWay + 'activity/', {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem("hangout_idtoken")},
+        'method': "POST",
+        'body': JSON.stringify(activities)
+      }).then(function (res) {
+        console.log(res);
+        return res.json();
+      }).then(function(data){
+        if (data.Error) {
+          alert(data.Error)
+        } else if (data._id) {
+          location.href = 'activity_detail.html?q=' + data._id;
+        }
+      }).catch(function (error) {
+        console.log(error);
+      });
+  }; /* end function(evt)*/
+  reader.readAsDataURL(file);
 }
 
 function composeNewActivity(elements) {
