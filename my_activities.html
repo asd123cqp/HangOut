@@ -7,10 +7,10 @@
   <link rel="stylesheet" href="css/custom.css"">
   <title>HangOut</title>
 </head>
-<body onload="getUser();getMyAttActs()">
+<body onload="getUser();getMyActivities('attend')">
 
   <!--==================== Navbar ====================-->
-  <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark">
     <a class="navbar-brand" href="index.html">HangOut</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -29,7 +29,7 @@
           </a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="my_activities_attend.html">
+          <a class="nav-link" href="my_activities.html">
             <span class="fa fa-comment"></span> My Activities
           </a>
         </li>
@@ -52,36 +52,22 @@
   </nav>
   <!--==================== Navbar ====================-->
 
+  <!--==================== Filer ====================-->
+  <div class="form form-login">
+    <div class="table-content"">
+      <h1>My activities</h1>
+      <ul class="tab-group">
+        <li class="tab active"><a id="attend" href="#attend">Planning to go</a></li>
+        <li class="tab"><a id="launch" href="#launch">Launched by me</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <!--==================== Filer ====================-->
+
   <!--==================== Content ====================-->
   <div class="container">
-    <div class="row">
-      <div class="col-lg-7 col-lg-offset-1" id="activities-frame">
-      <h2>My Activities</h2>
-        <div class="btn-group" id="type-form" data-toggle="buttons">
-          <a class="btn btn-primary active"
-             role="button"
-             href="#"
-             style="color:white">Joined
-          </a>
-          <a class="btn btn-secondary"
-             role="button"
-             href="my_activities_launch.html"
-             style="color:white">Launched
-          </a>
-        </div>
-
-        <div class="col-lg-10 input-group" style="padding-top:15px">
-          <form method="post" action="">
-            <div class="col-lg-10">
-              <input type="hidden" name="form_type" value="search_activity" />
-              <input type="text" class="form-control" placeholder="Search" name="search_word">
-            </div>
-            <span class="input-group-btn">
-              <button class="btn" type="submit"><span class="glyphicon glyphicon-search"></span></button>
-            </span>
-          </form>
-        </div>
-      </div>
+    <div id="activities-frame" class="row">
     </div>
   </div>
   <!--==================== Content ====================-->
@@ -90,5 +76,13 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="js/script.js"></script>
+  <script type="text/javascript">
+    ['attend', 'launch'].forEach(function(role) {
+      document.getElementById(role).onclick = function(e) {
+        tabClick(e);
+        getMyActivities(role);
+      };
+    });
+  </script>
 </body>
 </html>

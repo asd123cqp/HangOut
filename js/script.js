@@ -12,6 +12,13 @@ function createNode(type, classes) {
   return node;
 }
 
+function recoverRawActivity(activity) {
+  return {
+    '_id': activity.id,
+    '_source': activity
+  }
+}
+
 /******************** helper function ********************/
 
 
@@ -159,7 +166,6 @@ function renderAllActivities(activities) {
   }
   activities.forEach(function(activity) {
     frame.appendChild(renderActivity(activity));
-
   });
 }
 
@@ -212,10 +218,9 @@ function postActivity() {
 	    'Authorization': localStorage.getItem("hangout_idtoken")},
       'method': "POST",
       'body': JSON.stringify(activities)
-    })
-    .then(function (res) {
+    }).then(function (res) {
       console.log(res);
-      alert(res.statusText);
+      alert(res.ok? 'Post success!' : res.statusText);
       return res.json();
     }).then(function(data){
       if (data._id) {
@@ -249,85 +254,21 @@ function composeQuery() {
   return ret.length > 0? '&q=' + ret : ret;
 }
 
-function getMyAttActs() {
-    var info = {
-        id: localStorage.getItem('hangout_id'),
-        username: localStorage.getItem('hangout_account'),
-        token: localStorage.getItem('hangout_accesstoken'),
-    }
-    $.ajax({
-        url: apiGateWay + 'attend/',
-        type: 'get',
-        dataType: 'json',
-        contentType: "application/json",
-        headers: {'Authorization': localStorage.getItem('hangout_idtoken')},
-        data: JSON.stringify(info),
-        success: function (data) {
-            console.log(data);
-            renderActivity(data.activities);
-        },
-    })
-}
-
-function getMyCrtActs() {
-    var info = {
-        id: localStorage.getItem('hangout_id'),
-        username: localStorage.getItem('hangout_account'),
-        token: localStorage.getItem('hangout_accesstoken'),
-    }
-    $.ajax({
-        url: 'https://w217imcezl.execute-api.us-east-1.amazonaws.com/test/launch',
-        type: 'get',
-        contentType: "application/json",
-        headers: {
-                'Authorization': localStorage.getItem('hangout_idtoken'),
-                },
-        success: function (data) {
-            console.log(data);
-            renderMyActs(data.activities);
-        },
-    })
-}
-
-function renderMyActs(acts) {
-    var frame = document.getElementById('activities-frame');
-    acts.forEach(function(act) {
-        frame.appendChild(renderMyAct(act));
+function getMyActivities(role) {
+  fetch(apiGateWay + role, {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem("hangout_idtoken")},
+      'method': "GET",
+    }).then(function(res){
+      console.log(res);
+      return res.json();
+    }).then(function(data) {
+      console.log(data);
+      renderAllActivities(data.activities.map(recoverRawActivity));
+    }).catch(function(error) {
+      console.log(error);
     });
-}
-
-function renderMyAct(act) {
-    var node = createNode('div', ['col-lg-10', 'my-att-act']);
-    var divNode = createNode('div', []);
-    node.appendChild(divNode);
-
-    var actLinkNode = createNode('a', ['col-lg-10', 'list-group-item', 'active']);
-    actLinkNode.setAttribute('href', 'activity_detail.html?q=' + act.id);
-    var actNameNode = createNode('h4', ['list-group-item-heading']);
-    actNameNode.innerHTML = act.name;
-    var actTimeNode = createNode('h5', ['list-group-item-heading']);
-    actTimeNode.innerHTML = act.start_date + ' ' + act.start_time;
-    actLinkNode.appendChild(actNameNode);
-    actLinkNode.appendChild(actTimeNode);
-    divNode.appendChild(actLinkNode);
-
-    var actDescriptionNode = createNode('div', ['col-lg-10', 'list-group-item']);
-    actDescriptionNode.innerHTML = "<h4 class='list-group-item-heading'> <span class='glyphicon glyphicon-map-marker' aria-hidden:true></span>" + act.place + "</h4><p class='list-group-item-text'>" + act.explanation + "</p>"
-    divNode.appendChild(actDescriptionNode);
-
-    var buttonNode = createNode('div', []);
-    if (act.status == "already_in") {
-        buttonNode.innerHTML = '<button type="submit" class="btn btn-md pull-right disabled" style="position:relative;top:4px">Joined</button>';
-    }
-    else if (act.status == "expired") {
-        buttonNode.innerHTML = '<button type="submit" class="btn btn-md pull-right disabled" style="position:relative;top:4px">Expired</button>';
-    }
-    else if (act.status == "available") {
-        buttonNode.innerHTML = '<form role="form" method="post" action=""><input type="hidden" name="activity_id" value={{activity.id}} /><input type="hidden" name="form_type" value="apply_activity" /><button type="submit" class="btn btn-md btn-danger pull-right" style="position:relative;top:4px">Apply</button></form>';
-    }
-    divNode.appendChild(buttonNode);
-
-    return node;
 }
 
 /******************** login form ********************/
@@ -360,7 +301,7 @@ $('.form').find('input, textarea').on('keyup blur focus', function (e) {
 
 });
 
-$('.tab a').on('click', function (e) {
+function tabClick(e) {
 
   e.preventDefault();
 
@@ -373,5 +314,8 @@ $('.tab a').on('click', function (e) {
 
   $(target).fadeIn(600);
 
-});
+}
+
+
+$('.tab a').on('click', tabClick);
 /******************** login form ********************/
