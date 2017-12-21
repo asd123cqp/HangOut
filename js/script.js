@@ -1,5 +1,6 @@
 var esEndpoint = 'https://search-group6-activity-website-gv3gkyysjd5b7hnkji7hcmghzi.us-east-1.es.amazonaws.com/activities_test/activity/';
-var apiGateWay = 'https://w217imcezl.execute-api.us-east-1.amazonaws.com/test/activity/';
+var apiGateWay = 'https://w217imcezl.execute-api.us-east-1.amazonaws.com/test/';
+
 
 /******************** helper function ********************/
 
@@ -34,9 +35,10 @@ function joinAct(act_id) {
         type: 'post',
         dataType: 'json',
         contentType: "application/json",
-        headers: {'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem('hangout_idtoken'),
-                },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': localStorage.getItem('hangout_idtoken'),
+        },
         data: JSON.stringify(info),
         success: function (data) {
             console.log(data);
@@ -79,9 +81,10 @@ function fillInfo() {
         type: 'put',
         dataType: 'json',
         contentType: "application/json",
-        headers: {'Content-Type': 'application/json',
-                'Authorization': localStorage.getItem('hangout_idtoken'),
-                },
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': localStorage.getItem('hangout_idtoken')
+        },
         data: JSON.stringify(info),
         success: function (data) {
             //alert(data.msg);
@@ -156,7 +159,14 @@ function renderAllActivities(activities) {
   }
   activities.forEach(function(activity) {
     frame.appendChild(renderActivity(activity));
+
   });
+}
+
+function makeButton(callback, text, style) {
+  var node = createNode('button', ['btn', 'btn-' + style]);
+  node.textContent = text;
+  node.onclick = callback;
 }
 
 function renderActivity(activity) {
@@ -168,8 +178,8 @@ function renderActivity(activity) {
     <h4 class="card-title activity-name">${activity._source.name}</h4>
   </a>
   <p class="card-text activity-explanation">${activity._source.explanation}</p>
-  <button class="btn btn-danger" onclick="deleteActivity('${activity._id}')">Delete</button>
-  <button class="btn btn-success" onclick="joinAct('${activity._id}')">Join</button>
+  <button class="btn btn-danger" id="${activity._id}-btn1" onclick="deleteActivity('${activity._id}')">Delete</button>
+  <button class="btn btn-success" id="${activity._id}-btn2" onclick="joinAct('${activity._id}')">Join</button>
   <p></p>
 </div>
 
@@ -196,7 +206,7 @@ function postActivity() {
   var form = document.getElementById('new_activity');
   var activities = composeNewActivity(form.elements);
   console.log(activities);
-  fetch(apiGateWay, {
+  fetch(apiGateWay + 'activity/', {
     headers: {
       'Content-Type': 'application/json',
 	    'Authorization': localStorage.getItem("hangout_idtoken")},
@@ -246,17 +256,15 @@ function getMyAttActs() {
         token: localStorage.getItem('hangout_accesstoken'),
     }
     $.ajax({
-        url: 'https://w217imcezl.execute-api.us-east-1.amazonaws.com/test/attend',
+        url: apiGateWay + 'attend/',
         type: 'get',
-        //dataType: 'json',
+        dataType: 'json',
         contentType: "application/json",
-        headers: {
-                'Authorization': localStorage.getItem('hangout_idtoken'),
-                },
-        //data: JSON.stringify(info),
+        headers: {'Authorization': localStorage.getItem('hangout_idtoken')},
+        data: JSON.stringify(info),
         success: function (data) {
             console.log(data);
-            renderMyActs(data.activities);
+            renderActivity(data.activities);
         },
     })
 }

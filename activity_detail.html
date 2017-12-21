@@ -171,27 +171,26 @@
       'userId'
     ];
     var ACTTYPE = {
-	"1": "Movie",
-	"2": "Sports",
-	"3": "Party",
-	"4": "Meal",
-	"5": "Academic",
-	"6": "Others"
+      "1": "Movie",
+      "2": "Sports",
+      "3": "Party",
+      "4": "Meal",
+      "5": "Academic",
+      "6": "Others"
     };
 
     function initPage() {
       localStorage.setItem('hangout_actid', window.location.search.split("=")[1])
-      getActivityById(window.location.search.split("=")[1],
-              renderActivityDetails);
+      getActivityById(window.location.search.split("=")[1], renderActivityDetails);
     }
 
     function renderActivityDetails(activity) {
       ALL_FIELDS.forEach(function(field) {
         var node = document.getElementById('activity-' + field);
         node.textContent = activity[field];
-	if (field == "type") {
-	    node.textContent = ACTTYPE[activity[field]];
-	}
+        if (field == "type") {
+            node.textContent = ACTTYPE[activity[field]];
+        }
       });
 
       localStorage.setItem('hangout_actname', activity['name']);

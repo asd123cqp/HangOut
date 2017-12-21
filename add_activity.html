@@ -166,5 +166,22 @@
   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
   <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="js/script.js"></script>
+  <script type="text/javascript">
+    function fillActivity(activity) {
+      var form = document.getElementById('new_activity').elements;
+      for(var key in activity) {
+        if (form[key] && key !== 'picture') {
+          form[key].value = activity[key]
+        }
+      }
+    }
+
+    var activityId = window.location.search.split("=")[1];
+    if (activityId) {
+      console.log('activityId: ' + activityId);
+      getActivityById(window.location.search.split("=")[1], fillActivity);
+    }
+  </script>
+
 </body>
 </html>
