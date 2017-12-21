@@ -112,10 +112,9 @@ function fillInfo() {
     });
 }
 
-function getActivities(e) {
-  if (e) { evt.preventDefault(); }
+function getActivities() {
   console.log(composeQuery());
-  fetch(esEndpoint + '_search' + composeQuery(), {
+  fetch(esEndpoint + '_search?size=100' + composeQuery(), {
     headers: { 'Content-Type': 'application/json' },
     method: 'GET'
   })
@@ -205,11 +204,9 @@ function postActivity() {
       'body': JSON.stringify(activities)
     })
     .then(function (res) {
-      // $('input[button="submit"]').attr('disabled', false);
       console.log(res);
       alert(res.statusText);
       return res.json();
-      // if (res.statusText === 'Created') { getActivities(); }
     }).then(function(data){
       if (data._id) {
         location.href = 'activity_detail.html?q=' + data._id;
@@ -239,7 +236,7 @@ function composeQuery() {
   if (type !== '0') {
     ret += (ret.length > 0 ? 'AND' : '') + '(type:' + type + ')';
   }
-  return ret.length > 0? '?q=' + ret : ret;
+  return ret.length > 0? '&q=' + ret : ret;
 }
 
 function getMyAttActs() {
