@@ -60,8 +60,8 @@
 
   <div class="form form-login">
       <ul class="tab-group">
-        <li class="tab active"><a href="#signup">Sign Up</a></li>
-        <li class="tab"><a href="#login">Log In</a></li>
+        <li class="tab active"><a id="signup-tab" href="#signup">Sign Up</a></li>
+        <li class="tab"><a id="login-tab" href="#login">Log In</a></li>
       </ul>
 
       <div class="tab-content">
@@ -237,7 +237,13 @@
         contentType: "application/json",
         data: JSON.stringify(info),
         success: function (data) {
-          alert('Success!');
+          console.log(data);
+          if (data.UserConfirmed) {
+            $('#login-tab').trigger( "click" );
+            alert('Success!');
+          } else {
+            alert(data.Error)
+          }
         }
       });
 
