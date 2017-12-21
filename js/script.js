@@ -12,6 +12,8 @@ function createNode(type, classes) {
 }
 
 /******************** helper function ********************/
+
+
 function loadActId() {
   if ($("#attendance")) {
     $('#attendance').attr('href', 'activity_attendance.html?q=' + localStorage.getItem('hangout_actid'))
@@ -192,7 +194,6 @@ function deleteActivity(activityId) {
 }
 
 function postActivity() {
-  $('button[type="submit"]').attr('disabled', true);
   var form = document.getElementById('new_activity');
   var activities = composeNewActivity(form.elements);
   console.log(activities);
@@ -210,10 +211,10 @@ function postActivity() {
       return res.json();
       // if (res.statusText === 'Created') { getActivities(); }
     }).then(function(data){
-	 if (data._id)
-	    location.href = 'activity_detail.html?q=' + data._id;
+      if (data._id) {
+        location.href = 'activity_detail.html?q=' + data._id;
+      }
     }).catch(function (error) {
-      $('input[button="submit"]').attr('disabled', false);
       console.log(error);
     });
 }
@@ -323,3 +324,49 @@ function renderMyAct(act) {
 
     return node;
 }
+
+/******************** login form ********************/
+$('.form').find('input, textarea').on('keyup blur focus', function (e) {
+
+  var $this = $(this),
+      label = $this.prev('label');
+
+    if (e.type === 'keyup') {
+      if ($this.val() === '') {
+          label.removeClass('active highlight');
+        } else {
+          label.addClass('active highlight');
+        }
+    } else if (e.type === 'blur') {
+      if( $this.val() === '' ) {
+        label.removeClass('active highlight');
+      } else {
+        label.removeClass('highlight');
+      }
+    } else if (e.type === 'focus') {
+
+      if( $this.val() === '' ) {
+        label.removeClass('highlight');
+      }
+      else if( $this.val() !== '' ) {
+        label.addClass('highlight');
+      }
+    }
+
+});
+
+$('.tab a').on('click', function (e) {
+
+  e.preventDefault();
+
+  $(this).parent().addClass('active');
+  $(this).parent().siblings().removeClass('active');
+
+  target = $(this).attr('href');
+
+  $('.tab-content > div').not(target).hide();
+
+  $(target).fadeIn(600);
+
+});
+/******************** login form ********************/

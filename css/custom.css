@@ -35,7 +35,7 @@ a:hover {
   color: #179b77;
 }
 
-.form-login {
+.form {
   background: rgba(19, 35, 47, 0.9);
   padding: 40px;
   margin: 40px auto;
@@ -88,6 +88,10 @@ h1 {
   color: #ffffff;
   font-weight: 300;
   margin: 0 0 40px;
+}
+
+h5 {
+  color: #ffffff;
 }
 
 label {
@@ -152,6 +156,11 @@ textarea {
 .field-wrap {
   position: relative;
   margin-bottom: 20px;
+  height: 38px;
+}
+
+.field-wrap-tall {
+  height: 150px;
 }
 
 .top-row:after {
@@ -170,8 +179,16 @@ textarea {
   width: 22%;
 }
 
+.top-row > div.one-eighth {
+  width: 9%;
+}
+
 .top-row > div.three-quarters {
   width: 74%;
+}
+
+.top-row > div.one-third {
+  width: 30.66%;
 }
 
 .top-row > div:last-child {
@@ -211,6 +228,10 @@ textarea {
 .form-login {
     max-width: 600px;
 }
+
+.form-activity {
+  max-width: 800px;
+}
 /******************** forms & buttons ********************/
 
 
@@ -247,8 +268,4 @@ textarea {
   box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14),
               0 6px 30px 5px rgba(0, 0, 0, 0.12),
               0 8px 10px -5px rgba(0, 0, 0, 0.2);
-}
-
-#type-form, #search-bar, #search-button {
-    height: 36px;
 }
