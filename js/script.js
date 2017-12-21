@@ -197,7 +197,7 @@ function postActivity() {
   var form = document.getElementById('new_activity');
   var activities = composeNewActivity(form.elements);
   console.log(activities);
-  fetch(esEndpoint, {
+  fetch(apiGateWay, {
     headers: {
       'Content-Type': 'application/json',
 	    'Authorization': localStorage.getItem("hangout_idtoken")},
@@ -205,7 +205,7 @@ function postActivity() {
       'body': JSON.stringify(activities)
     })
     .then(function (res) {
-      $('input[button="submit"]').attr('disabled', false);
+      // $('input[button="submit"]').attr('disabled', false);
       console.log(res);
       alert(res.statusText);
       return res.json();
