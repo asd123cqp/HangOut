@@ -1,0 +1,349 @@
+﻿<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" />
+  <link rel="stylesheet" href="css/custom.css"">
+  <title>HangOut</title>
+</head>
+<body onload="getUser()">
+
+  <!--==================== Navbar ====================-->
+  <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">HangOut</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor03">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">
+            <span class="fa fa-home"></span> Home <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="add_activity.html">
+            <span class="fa fa-plus"></span> Create Activity
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="my_activities_attend.html">
+            <span class="fa fa-comment"></span> My Activities
+          </a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a id="show-username" class="nav-link" href="#">
+            <span class="fa fa-user"></span> Sign in
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" onclick="logout()">
+            <span class="fa fa-sign-out"></span> Sign out
+          </a>
+        </li>
+      </ul>
+
+    </div>
+  </nav>
+  <!--==================== Navbar ====================-->
+
+  <!--==================== Content ====================-->
+      <div class="col-lg-7 col-sm-7">
+        <form id="new_activity" class="form-horizontal" role="form" enctype="multipart/form-data">
+          <h2>
+            Create Activity
+          </h2>
+            <div class="form-group">
+              <label for="name" class="col-sm-3 control-label">
+                Activity name:
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="name" {% if name %} placeholder="Please enter name">
+              </div>
+            </div>
+            <div class="form-inline">
+              <label for="dtp_input1" class="col-sm-3 control-label">
+                Start time:
+              </label>
+              <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy/mm/dd"
+              data-link-field="dtp_input1" data-link-format="yyyy-mm-dd" style="float:left;margin: 0 10px 0 0;">
+                <input class="form-control" type="text" readonly="" name="start_date"
+                />
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar">
+                  </span>
+                </span>
+              </div>
+              <div class="input-group date form_time col-md-3" data-date="" data-date-format="hh:ii"
+              data-link-field="dtp_input2" data-link-format="hh:ii">
+                <input class="form-control" size="16" type="text" readonly=""
+                name="start_time" />
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-time">
+                  </span>
+                </span>
+              </div>
+              <div class="col-sm-4 col-sm-offset-2">
+                <!-- start time error -->
+              </div>
+              <input type="hidden" id="dtp_input1" value="" />
+              <br />
+              <input type="hidden" id="dtp_input2" value="" />
+              <br />
+            </div>
+            <div class="form-inline">
+              <label for="dtp_input3" class="col-md-3 control-label">
+                End time:
+              </label>
+              <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy/mm/dd"
+              data-link-field="dtp_input3" data-link-format="yyyy-mm-dd" style="float:left;margin: 0 10px 0 0;">
+                <input class="form-control" type="text" readonly="" name="end_date"
+                />
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar">
+                  </span>
+                </span>
+              </div>
+              <div class="input-group date form_time col-md-3" data-date="" data-date-format="hh:ii"
+              data-link-field="dtp_input4" data-link-format="hh:ii">
+                <input class="form-control" size="16" type="text" readonly=""
+                name="end_time" />
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-time">
+                  </span>
+                </span>
+              </div>
+              <div class="col-sm-4 col-sm-offset-2">
+                <!-- {% if errors.end_time %}
+                {{errors.end_time}}
+                {% endif %} -->
+              </div>
+              <input type="hidden" id="dtp_input3" value="" />
+              <br />
+              <input type="hidden" id="dtp_input4" value="" />
+              <br />
+            </div>
+            <div class="form-inline">
+              <label for="dtp_input5" class="col-sm-3 control-label">
+                Application deadline:
+              </label>
+              <div class="input-group date form_date col-md-5" data-date="" data-date-format="yyyy/mm/dd"
+              data-link-field="dtp_input5" data-link-format="yyyy-mm-dd" style="float:left;margin: 0 10px 0 0;">
+                <input class="form-control" type="text" readonly="" name="applyend_date"
+                />
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar">
+                  </span>
+                </span>
+              </div>
+              <div class="input-group date form_time col-md-3" data-date="" data-date-format="hh:ii"
+              data-link-field="dtp_input6" data-link-format="hh:ii">
+                <input class="form-control" size="16" type="text" readonly=""
+                name="applyend_time"/>
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-time">
+                  </span>
+                </span>
+              </div>
+              <div class="col-sm-4 col-sm-offset-2">
+                <!-- {% if errors.applyend_time %}
+                {{errors.applyend_time}}
+                {% endif %} -->
+              </div>
+              <input type="hidden" id="dtp_input5" value="" />
+              <br />
+              <input type="hidden" id="dtp_input6" value="" />
+              <br />
+            </div>
+            <div class="form-group">
+              <label for="place" class="col-sm-3 control-label">
+                Location:
+              </label>
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="place" placeholder="Please enter location"
+                />
+                <!-- {% if errors.place %}
+                {{errors.place}}
+                {% endif %} -->
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="explanation" class="col-sm-3 control-label">
+                Description:
+              </label>
+              <div class="col-sm-8">
+                <textarea class="col-sm-8 form-control" rows="6" name="explanation" placeholder="Please enter description" ></textarea>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="act_cat" class="col-sm-3 control-label">
+                Activity Type:
+              </label>
+              <div class="col-sm-8">
+                <select class="form-control" id="sel1" name="type">
+                  <option value="1">
+                    Movie
+                  </option>
+                  <option value="2">
+                    Sports
+                  </option>
+                  <option value="3">
+                    Party
+                  </option>
+                  <option value="4">
+                    Meal
+                  </option>
+                  <option value="5">
+                    Academic
+                  </option>
+                  <option value="6">
+                    Other
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="place" class="col-sm-3 control-label">
+                Age requirement:
+              </label>
+              <div class="col-sm-3">
+                <input type="number" class="form-control" name="min_age" placeholder="Min age" value=18
+                />
+                <!-- {% if errors.min_age %}
+                {{errors.min_age}}
+                {% endif %} -->
+              </div>
+              <div class="col-sm-1 text-center">
+                <b>~</b>
+              </div>
+              <div class="col-sm-3">
+                <input type="number" class="form-control" name="max_age" placeholder="Max age" value=100
+                />
+                <!-- {% if errors.max_age %}
+                {{errors.max_age}}
+                {% endif %} -->
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="sex_requirement" class="col-sm-3 control-label">
+                Gender requirement:
+              </label>
+              <div class="col-sm-8">
+                <select class="form-control" id="sel1" name="sex_requirement">
+                  <option value="unlimit">
+                    No limit
+                  </option>
+                  <option value="male">
+                    Only for men
+                  </option>
+                  <option value="female">
+                    Only for women
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="max_size" class="col-sm-3 control-label">
+                Maximum number of participants:
+              </label>
+              <div class="col-sm-4">
+                <input type="number" class="form-control" name="max_size" value=10>
+                <!-- {% if errors.max_size %}
+                {{errors.max_size}}
+                {% endif %} -->
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="status" class="col-sm-3 control-label">
+                Activity status:
+              </label>
+              <div class="col-sm-8">
+                <select class="form-control" id="sel1" name="status">
+                  <option value="open">
+                    Open to application
+                  </option>
+                  <option value="closed">
+                    Close to application
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="upload" class="col-sm-3 control-label">
+                Upload picture:
+              </label>
+              <!-- <div class="col-sm-9 form-inline"> -->
+                <!-- <input id="group_picture" type="file" name="image"> -->
+              <!-- </div> -->
+              <div class="col-sm-8">
+                <input type="text" class="form-control" name="picture" placeholder="Please enter url"
+                />
+              </div>
+            </div>
+        </form>
+        <div class="form-inline" style="float:right;margin-right:17%;margin-top:8px;margin-bottom:25px;">
+          <button type="submit" class="btn btn-primary btn-lg" onclick="postActivity()">
+            Submit
+          </button>
+          <button type="reset" class="btn btn-danger btn-lg" style="margin-left:15px">
+            Reset
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--==================== Content ====================-->
+
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+  <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+  <script type="text/javascript" src="js/accept-or-reject.js" charset="UTF-8"></script>
+  <script type="text/javascript" src="js/script.js"></script>
+  <script>
+
+    $('.form_date').datetimepicker({
+      weekStart: 1,
+      todayBtn: 1,
+      autoclose: 1,
+      todayHighlight: 1,
+      startView: 2,
+      minView: 2,
+      forceParse: 0
+    });
+    $('.form_time').datetimepicker({
+      weekStart: 1,
+      todayBtn: 1,
+      autoclose: 1,
+      todayHighlight: 1,
+      startView: 1,
+      minView: 0,
+      maxView: 1,
+      forceParse: 0
+    });
+
+    function checkall() {
+      var my_checkbox = document.getElementsByTagName("input");
+      for (var i = 0; i < my_checkbox.length; i++) {
+        if (my_checkbox[i].type == "checkbox") {
+          my_checkbox[i].checked = true;
+        }
+      }
+    };
+    function cancelall() {
+      var my_checkbox = document.getElementsByTagName("input");
+      for (var i = 0; i < my_checkbox.length; i++) {
+        if (my_checkbox[i].type == "checkbox") {
+          my_checkbox[i].checked = false;
+        }
+      }
+    };
+  </script>
+</body>
+</html>

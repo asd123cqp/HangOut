@@ -1,0 +1,235 @@
+﻿<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/custom.css"">
+  <title>HangOut</title>
+</head>
+<body onload="getUser();fillInfo()">
+
+  <!--==================== Navbar ====================-->
+  <nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">HangOut</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor03">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">
+            <span class="fa fa-home"></span> Home <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="add_activity.html">
+            <span class="fa fa-plus"></span> Create Activity
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="my_activities_attend.html">
+            <span class="fa fa-comment"></span> My Activities
+          </a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a id="show-username" class="nav-link" href="#">
+            <span class="fa fa-user"></span> Sign in
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" onclick="logout()">
+            <span class="fa fa-sign-out"></span> Sign out
+          </a>
+        </li>
+      </ul>
+
+    </div>
+  </nav>
+  <!--==================== Navbar ====================-->
+
+  <div class="container">
+    <div class="row">
+      <!--==================== Info ====================-->
+      <div class="col-lg-6 col-lg-offset-1 col-sm-10" style="padding:1% 25px 1% 5%;border:2px solid skyblue">
+        <div class="col-lg-8 col-sm-offset-1 col-sm-8">
+          <form class="form-horizontal" role="form" enctype="multipart/form-data">
+            <div class="form-group">
+            <label for="nickname" class="col-sm-4 control-label">Nickname</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" name="nickname">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="sex" class="col-sm-4 control-label">Gender</label>
+            <div class="col-sm-8">
+              <label class="checkbox-inline">
+                 <input type="radio" name="sex" id="male"
+                   value="male" checked> Male
+              </label>
+              <label class="checkbox-inline">
+                 <input type="radio" name="sex" id="female"
+                   value="female"> Female
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="age" class="col-sm-4 control-label">Age</label>
+            <div class="col-sm-7">
+              <input type="number" class="form-control" name="age">
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="tel" class="col-sm-4 control-label">Phone</label>
+            <div class="col-sm-7">
+              <input type="text" class="form-control" name="phone" >
+            </div>
+          </div>
+
+            </form>
+              <div class="row">
+                <div class="col-sm-6 col-sm-offset-3">
+                  <input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit" onclick="submitInfo()">
+                </div>
+              </div>
+
+          </div>
+      </div>
+      <!--==================== Info ====================-->
+
+      <!--==================== Password ====================-->
+      <div class="col-lg-6 col-lg-offset-1 col-sm-7" style="padding:1% 25px 1% 5%;border:2px solid skyblue">
+        <div class="col-lg-10 col-sm-8">
+          <form class="form-horizontal" role="form">
+            <!-- {% csrf_token %} -->
+            <div class="form-group">
+               <label for="password" class="col-sm-5 control-label">Old password</label>
+               <div class="col-sm-7">
+                <input id="old_pass" type="password" class="form-control" name="old_password"
+                 placeholder="Please enter your old password">
+               </div>
+            </div>
+
+            <div class="form-group">
+               <label for="password" class="col-sm-5 control-label">New password</label>
+               <div class="col-sm-7">
+                <input id="new_pass1" type="password" class="form-control" name="new_password1"
+                 placeholder="Please enter your new password">
+               </div>
+            </div>
+
+            <div class="form-group">
+               <label for="password" class="col-sm-5 control-label">Comfirm new password</label>
+               <div class="col-sm-7">
+                <input id="new_pass2" type="password" class="form-control" name="new_password2"
+                 placeholder="Please comfirm your new password">
+               </div>
+            </div>
+
+          </form>
+
+            <input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit" onclick="changeUserPwd()" />
+        </div>
+      </div>
+      <!--==================== Password ====================-->
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/script.js"></script>
+  <script>
+    function submitInfo() {
+      var gender = 'male';
+      if ($("input[id='female']:checked").val()) {
+        gender = 'female';
+      }
+
+      console.log(gender);
+
+      var info = {
+        token: localStorage.getItem('hangout_accesstoken'),
+        nickname: $("input[name='nickname']").val(),
+        age: $("input[name='age']").val(),
+        phone: $("input[name='phone']").val(),
+        gender: gender,
+      }
+      console.log(JSON.stringify(info));
+
+      $.ajax({
+        url: 'https://w217imcezl.execute-api.us-east-1.amazonaws.com/test/profile',
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': localStorage.getItem('hangout_idtoken'),
+        },
+        data: JSON.stringify(info),
+        success: function (data) {
+          //alert(data.msg);
+          console.log(data);
+          if (data.Error) {
+            alert(data.Error);
+          }
+          else {
+            alert('Profile changed!')
+          }
+        },
+      });
+    }
+
+    function changeUserPwd() {
+      var info = {
+        username: localStorage.getItem('hangout_account'),
+        old_pass: $("#old_pass").val(),
+        new_pass: $("#new_pass1").val(),
+        new_pass2: $("#new_pass2").val(),
+        token: localStorage.getItem('hangout_accesstoken'),
+      };
+
+      console.log(JSON.stringify(info));
+      $.ajax({
+        url: 'https://w217imcezl.execute-api.us-east-1.amazonaws.com/test/resetpass',
+        type: 'post',
+        dataType: 'json',
+        contentType: "application/json",
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': localStorage.getItem('hangout_idtoken'),
+        },
+        success: function (data) {
+          //alert(data.msg);
+          console.log(data);
+          if (data.Error) {
+            if (data.Error == 'UserNotFoundException') {
+              alert('User not found');
+              return;
+            }
+            if (data.Error == 'NotAuthorizedException') {
+              alert('Incorrect password');
+              return;
+            }
+            if (data.Error == 'TooManyRequestsException') {
+              alert('Operation too frequently');
+              return;
+            }
+            alert('Other errors');
+              return;
+          }
+          alert('Success!');
+        },
+        data: JSON.stringify(info),
+      });
+    }
+  </script>
+</body>
+</html>

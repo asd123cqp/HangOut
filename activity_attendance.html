@@ -1,0 +1,145 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/custom.css"">
+  <title>HangOut</title>
+</head>
+<body onload="loadActId();getUser();getAttends()">
+
+  <!--==================== Navbar ====================-->
+  <nav class="navbar sticky-top navbar-expand-md navbar-dark bg-dark">
+    <a class="navbar-brand" href="index.html">HangOut</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor03" aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarColor03">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">
+            <span class="fa fa-home"></span> Home <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="add_activity.html">
+            <span class="fa fa-plus"></span> Create Activity
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="my_activities_attend.html">
+            <span class="fa fa-comment"></span> My Activities
+          </a>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item active">
+          <a id="show-username" class="nav-link" href="user.html">
+            <span class="fa fa-user"></span> Sign in
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" onclick="logout()">
+            <span class="fa fa-sign-out"></span> Sign out
+          </a>
+        </li>
+      </ul>
+
+    </div>
+  </nav>
+  <!--==================== Navbar ====================-->
+
+  <!--==================== Content ====================-->
+  <div class="container">
+    <div id="activities-frame" class="row">
+        <div class="col-lg-7 col-sm-8">
+          <br>
+          <div class="btn-group" id="type-form" data-toggle="buttons">
+            <a class="btn btn-secondary"
+               role="button"
+               id="detail"
+               href="activity_detail.html"
+               style="color:white">Activity Detail
+            </a>
+            <a class="btn btn-primary"
+               role="button"
+               href="#"
+               style="color:white">Attendance
+            </a>
+          </div>
+          <br><br>
+
+
+          <h2 id='att-title'>Attendance list of </h2>
+          <div class="col-lg-12">
+            <table class="table table-hover" style="font-family:'Microsoft YaHei';font-size:1.3em">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="attend-list">
+                <tr>
+                  <td>Account</td>
+                  <td>Nickname</td>
+                  <td>Gender</td>
+                  <td>Age</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </div>
+  </div>
+  <!--==================== Content ====================-->
+
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/script.js"></script>
+  <script>
+    function getAttends() {
+      $('#att-title').text('Attendance list of ' + localStorage.getItem('hangout_actname'));
+      var info = {
+        id: localStorage.getItem('hangout_id'),
+        username: localStorage.getItem('hangout_account'),
+        token: localStorage.getItem('hangout_accesstoken'),
+      }
+      $.ajax({
+        url: 'https://w217imcezl.execute-api.us-east-1.amazonaws.com/test/people?activityid=' + localStorage.getItem('hangout_actid'),
+        type: 'get',
+        //dataType: 'json',
+        contentType: "application/json",
+        headers: {
+            'Authorization': localStorage.getItem('hangout_idtoken'),
+            },
+        //data: JSON.stringify(info),
+        success: function (data) {
+          console.log(data.users);
+          renderAttends(data.users);
+        },
+      })
+    }
+
+    function renderAttends(users) {
+      var frame = document.getElementById('attend-list');
+      users.forEach(function(user) {
+        frame.appendChild(renderAttend(user));
+      });
+    }
+
+    function renderAttend(user) {
+      var node = createNode('tr', []);
+      node.innerHTML = '<td>' + user.email + '</td>' +
+              '<td>' + user.nickname + '</td>' +
+              '<td>' + user.gender + '</td>' +
+              '<td>' + user.age + '</td><td></td>';
+      return node;
+    }
+  </script>
+</body>
+</html>
