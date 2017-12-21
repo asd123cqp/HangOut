@@ -195,11 +195,16 @@ function deleteActivity(activityId) {
 function postActivity() {
   var form = document.getElementById('new_activity');
   var activities = composeNewActivity(form.elements);
+  var reader = new FileReader();
+  var file = $("#pic")[0].files[0];
+  reader.onload = function (evt) {
+    activities["picture"] = evt.target.result;
   console.log(activities);
   fetch(apiGateWay, {
     headers: {
       'Content-Type': 'application/json',
-	    'Authorization': localStorage.getItem("hangout_idtoken")},
+      'Authorization': localStorage.getItem("hangout_idtoken")
+    },
       'method': "POST",
       'body': JSON.stringify(activities)
     })
@@ -214,6 +219,9 @@ function postActivity() {
     }).catch(function (error) {
       console.log(error);
     });
+
+  };
+  reader.readAsDataURL(file);
 }
 
 function composeNewActivity(elements) {
