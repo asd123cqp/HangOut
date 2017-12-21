@@ -55,7 +55,7 @@ function getUser() {
   var account = localStorage.getItem('hangout_account');
   console.log('Account:' + account);
   if (account == null) {
-    location.href = 'login_form.html';
+    location.href = 'login.html';
   }
   $('#show-username').html('<span class="fa fa-user"></span>' + account);
 }
@@ -65,7 +65,7 @@ function logout() {
   localStorage.removeItem('hangout_idtoken');
   localStorage.removeItem('hangout_refreshtoken');
   localStorage.removeItem('hangout_account');
-  location.href = 'login_form.html';
+  location.href = 'login.html';
 }
 
 function fillInfo() {
