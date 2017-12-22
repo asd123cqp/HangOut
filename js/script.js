@@ -68,7 +68,8 @@ function getUser() {
   if (account == null) {
     location.href = 'login.html';
   }
-  $('#show-username').html('<span class="fa fa-user"></span>' + account);
+  $('#show-username').html('<span class="fa fa-user"></span> ' + account);
+  $('#show-username').parent().addClass('active');
 }
 
 function logout() {
@@ -79,64 +80,18 @@ function logout() {
   location.href = 'login.html';
 }
 
-function fillInfo() {
-  var info = {
-    token: localStorage.getItem('hangout_accesstoken'),
-  }
-  $.ajax({
-        url: 'https://w217imcezl.execute-api.us-east-1.amazonaws.com/test/profile',
-        type: 'put',
-        dataType: 'json',
-        contentType: "application/json",
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': localStorage.getItem('hangout_idtoken')
-        },
-        data: JSON.stringify(info),
-        success: function (data) {
-            //alert(data.msg);
-            console.log(data.id);
-            console.log(data.phone);
-            console.log(data.age);
-            console.log(data.gender);
-            console.log(data.nickname);
-            if (data.phone) {
-              $("input[name='phone']").val(data.phone);
-            }
-            if (data.age) {
-              $("input[name='age']").val(data.age);
-            }
-            if (data.nickname) {
-              $("input[name='nickname']").val(data.nickname);
-            }
-            if (data.gender == 'male') {
-              $("input[id='male']").attr('checked', true);
-              $("input[id='female']").attr('checked', false);
-            }
-            else {
-              $("input[id='male']").attr('checked', false);
-              $("input[id='female']").attr('checked', true);
-            }
-            $("input[name='sex']").val(data.gender);
-        },
-    });
-}
-
 function getActivities() {
   console.log(composeQuery());
   fetch(esEndpoint + '_search?size=100' + composeQuery(), {
     headers: { 'Content-Type': 'application/json' },
     method: 'GET'
-  })
-    .then(function (res) {
+  }).then(function (res) {
       return res.json();
-    })
-    .then(function (data) {
+    }).then(function (data) {
       console.log(data.hits.hits);
       renderAllActivities(data.hits.hits);
       return false;
-    })
-    .catch(function (error) {
+    }).catch(function (error) {
       console.log(error);
   });
 }

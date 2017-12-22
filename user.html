@@ -29,14 +29,14 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="my_activities_attend.html">
+          <a class="nav-link" href="my_activities.html">
             <span class="fa fa-comment"></span> My Activities
           </a>
         </li>
       </ul>
 
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
+        <li class="nav-item">
           <a id="show-username" class="nav-link" href="#">
             <span class="fa fa-user"></span> Sign in
           </a>
@@ -52,101 +52,118 @@
   </nav>
   <!--==================== Navbar ====================-->
 
-  <div class="container">
-    <div class="row">
-      <!--==================== Info ====================-->
-      <div class="col-lg-6 col-lg-offset-1 col-sm-10" style="padding:1% 25px 1% 5%;border:2px solid skyblue">
-        <div class="col-lg-8 col-sm-offset-1 col-sm-8">
-          <form class="form-horizontal" role="form" enctype="multipart/form-data">
-            <div class="form-group">
-            <label for="nickname" class="col-sm-4 control-label">Nickname</label>
-            <div class="col-sm-7">
-              <input type="text" class="form-control" name="nickname">
-            </div>
+  <div class="form form-login">
+    <ul class="tab-group">
+      <li class="tab active"><a href="#change-profile">Change Profile</a></li>
+      <li class="tab"><a href="#change-password">Change Password</a></li>
+    </ul>
+
+    <div class="tab-content">
+
+      <div id="change-profile">
+
+        <form>
+
+        <div class="top-row">
+          <div class="field-wrap">
+            <label>
+              Nickname<span class="req">*</span>
+            </label>
+            <input id="nickname" name="nickname" type="text" required autocomplete="off"/>
           </div>
 
-          <div class="form-group">
-            <label for="sex" class="col-sm-4 control-label">Gender</label>
-            <div class="col-sm-8">
-              <label class="checkbox-inline">
-                 <input type="radio" name="sex" id="male"
-                   value="male" checked> Male
-              </label>
-              <label class="checkbox-inline">
-                 <input type="radio" name="sex" id="female"
-                   value="female"> Female
-              </label>
-            </div>
+          <div class="field-wrap quarter">
+            <label>
+              Age<span class="req">*</span>
+            </label>
+            <input type="number" name="age" id="age">
           </div>
 
-          <div class="form-group">
-            <label for="age" class="col-sm-4 control-label">Age</label>
-            <div class="col-sm-7">
-              <input type="number" class="form-control" name="age">
-            </div>
+          <div class="field-wrap quarter">
+            <select name="gender" id="gender">
+              <option value="" selected="selected">Gender</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
+            </select>
           </div>
 
-          <div class="form-group">
-            <label for="tel" class="col-sm-4 control-label">Phone</label>
-            <div class="col-sm-7">
-              <input type="text" class="form-control" name="phone" >
-            </div>
-          </div>
-
-            </form>
-              <div class="row">
-                <div class="col-sm-6 col-sm-offset-3">
-                  <input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit" onclick="submitInfo()">
-                </div>
-              </div>
-
-          </div>
-      </div>
-      <!--==================== Info ====================-->
-
-      <!--==================== Password ====================-->
-      <div class="col-lg-6 col-lg-offset-1 col-sm-7" style="padding:1% 25px 1% 5%;border:2px solid skyblue">
-        <div class="col-lg-10 col-sm-8">
-          <form class="form-horizontal" role="form">
-            <!-- {% csrf_token %} -->
-            <div class="form-group">
-               <label for="password" class="col-sm-5 control-label">Old password</label>
-               <div class="col-sm-7">
-                <input id="old_pass" type="password" class="form-control" name="old_password"
-                 placeholder="Please enter your old password">
-               </div>
-            </div>
-
-            <div class="form-group">
-               <label for="password" class="col-sm-5 control-label">New password</label>
-               <div class="col-sm-7">
-                <input id="new_pass1" type="password" class="form-control" name="new_password1"
-                 placeholder="Please enter your new password">
-               </div>
-            </div>
-
-            <div class="form-group">
-               <label for="password" class="col-sm-5 control-label">Comfirm new password</label>
-               <div class="col-sm-7">
-                <input id="new_pass2" type="password" class="form-control" name="new_password2"
-                 placeholder="Please comfirm your new password">
-               </div>
-            </div>
-
-          </form>
-
-            <input type="submit" class="btn btn-primary btn-lg btn-block" value="Submit" onclick="changeUserPwd()" />
         </div>
+
+        <div class="field-wrap">
+          <label>
+            Phone number
+          </label>
+          <input id="phone" name="phone" type="text" autocomplete="off"/>
+        </div>
+
+
+        </form>
+        <button class="button button-block" onclick="submitInfo()">Update</button>
       </div>
-      <!--==================== Password ====================-->
-    </div>
-  </div>
+
+      <div id="change-password">
+
+        <form>
+
+        <div class="field-wrap">
+          <label for="old_pass">
+            Old password<span class="req">*</span>
+          </label>
+          <input id="old_pass" type="password" required name="old_pass" autocomplete="off"/>
+        </div>
+
+        <div class="field-wrap">
+          <label for="new_pass1">
+            New password<span class="req">*</span>
+          </label>
+          <input id="new_pass1" type="password" required name="new_pass1" autocomplete="off"/>
+        </div>
+
+        <div class="field-wrap">
+          <label for="new_pass2">
+            Confirm new password<span class="req">*</span>
+          </label>
+          <input id="new_pass2" type="password" required name="new_pass2" autocomplete="off"/>
+        </div>
+
+        <p class="forgot"><a href="#">Forgot Password?</a></p>
+        </form>
+        <button class="button button-block" onclick="changeUserPwd()">Update</button>
+
+      </div>
+    </div><!-- tab-content -->
+  </div> <!-- /form -->
 
   <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="js/script.js"></script>
   <script>
+
+    function fillInfo() {
+      fetch(apiGateWay + 'profile/', {
+        body: JSON.stringify({token: localStorage.getItem('hangout_accesstoken')}),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': localStorage.getItem("hangout_idtoken")},
+          'method': "PUT",
+        }).then(function(res){
+          console.log(res);
+          return res.json();
+        }).then(function(data) {
+          console.log(data);
+          ['phone', 'age', 'gender', 'nickname'].forEach(function(field) {
+            if (data[field]) {
+              document.getElementById(field).value = data[field];
+              $('#' + field).trigger('keyup');
+            }
+          });
+        }).catch(function(error) {
+          console.log(error);
+        });
+    }
+
     function submitInfo() {
       var gender = 'male';
       if ($("input[id='female']:checked").val()) {
