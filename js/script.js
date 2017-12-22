@@ -146,7 +146,7 @@ function renderActivity(activity) {
 
 <div class="card-footer text-muted">
   <i class="fa fa-map-pin" aria-hidden="true"></i> ${activity._source.place}
-  <small class="text-muted">${activity._source.start_date}</small>
+  <small class="text-muted">${activity._source.start_time}</small>
 </div>
   `;
   return node;
