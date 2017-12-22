@@ -251,6 +251,12 @@ textarea {
     height: 36px;
 }
 
+.card-footer {
+  height: 48px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .activity-explanation{
     margin: 12px;
     height: 72px;
