@@ -245,7 +245,11 @@ function composeNewActivity(elements) {
   for(var i = 0; i < elements.length ; ++i){
       var item = elements.item(i);
       if (item.name !== '' && item.value !== '') {
-        obj[item.name] = item.value;
+        if (item.name.slice(-5) === '_time') {
+          obj[item.name] = item.value.replace('T', ', ');
+        } else {
+          obj[item.name] = item.value;
+        }
       }
   }
   return obj;
