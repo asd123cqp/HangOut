@@ -280,3 +280,7 @@ textarea {
               0 6px 30px 5px rgba(0, 0, 0, 0.12),
               0 8px 10px -5px rgba(0, 0, 0, 0.2);
 }
+
+#delete-btn {
+  margin-top: 24px;
+}

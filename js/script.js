@@ -139,8 +139,7 @@ function renderActivity(activity) {
     <h4 class="card-title activity-name">${activity._source.name}</h4>
   </a>
   <p class="card-text activity-explanation">${activity._source.explanation}</p>
-  <button class="btn btn-danger" id="${activity._id}-btn1" onclick="deleteActivity('${activity._id}')">Delete</button>
-  <button class="btn btn-success" id="${activity._id}-btn2" onclick="joinAct('${activity._id}')">Join</button>
+  <button class="btn btn-success" id="join-${activity._id}-btn" onclick="joinAct('${activity._id}')">Join</button>
   <p></p>
 </div>
 
@@ -157,8 +156,8 @@ function deleteActivity(activityId) {
     .then(function (res) {
       console.log(res);
       alert(res.statusText);
-    })
-    .catch(function (error) {
+      window.location.href = "my_activities.html";
+    }).catch(function (error) {
       console.log(error);
     });
 }
@@ -198,14 +197,14 @@ function postActivity() {
 function composeNewActivity(elements) {
   var obj ={};
   for(var i = 0; i < elements.length ; ++i){
-      var item = elements.item(i);
-      if (item.name !== '' && item.value !== '') {
-        if (item.name.slice(-5) === '_time') {
-          obj[item.name] = item.value.replace('T', ', ');
-        } else {
-          obj[item.name] = item.value;
-        }
+    var item = elements.item(i);
+    if (item.name !== '' && item.value !== '') {
+      if (item.name.slice(-5) === '_time') {
+        obj[item.name] = item.value.replace('T', ', ');
+      } else {
+        obj[item.name] = item.value;
       }
+    }
   }
   return obj;
 }
