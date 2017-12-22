@@ -165,19 +165,13 @@
     }
 
     function submitInfo() {
-      var gender = 'male';
-      if ($("input[id='female']:checked").val()) {
-        gender = 'female';
-      }
-
-      console.log(gender);
 
       var info = {
         token: localStorage.getItem('hangout_accesstoken'),
         nickname: $("input[name='nickname']").val(),
         age: $("input[name='age']").val(),
         phone: $("input[name='phone']").val(),
-        gender: gender,
+        gender: $("input[name='gender']").val(),,
       }
       console.log(JSON.stringify(info));
 
