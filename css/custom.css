@@ -239,6 +239,10 @@ textarea {
 .card {
     width: 20rem;
     margin: 12px;
+    border: 1.2px solid #d3d3d3;
+    box-shadow: 0 8px 12px 1px rgba(0, 0, 0, 0.14),
+                0 3px 15px 3px rgba(0, 0, 0, 0.12),
+                0 4px 5px -3px rgba(0, 0, 0, 0.2);
 }
 
 .card-img-top {
