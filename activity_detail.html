@@ -56,7 +56,7 @@
   <div class="form form-login">
     <div class="table-content"">
       <h1 id="activity-name"></h1>
-      <h5 style="text-align: center;">Joined <span id="activity-current_size"></span> / <span id="activity-max_size"></span></h5>
+      <h5 style="text-align: center;"><span id="activity-current_size"></span> / <span id="activity-max_size"></span></h5>
       <ul class="tab-group">
         <li class="tab active"><a href="#detail">Activity Detail</a></li>
         <li class="tab"><a href="#attendance">Activity Attendance</a></li>
@@ -209,6 +209,7 @@
           frame.appendChild(renderAttend(user));
         }
       });
+      document.getElementById('activity-current_size').textContent = Object.keys(userSet).length;
     }
 
     function renderAttend(user) {
